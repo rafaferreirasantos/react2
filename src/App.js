@@ -2,25 +2,24 @@ import React from 'react';
 import './App.css';
 import Formulario from './components/Formulario/Formulario';
 import { Typography, Container } from '@material-ui/core';
-// import 'fontsource-roboto'
+import { validateCPF, validatePassword, validateCEP } from './models/cadastro';
+import 'fontsource-roboto'
+import FormValidatorContext from './contexts/FormValidatorContext';
 
 function App() {
   return (
-    <Container component="article" maxWidth="md">
+    <Container component="article" maxWidth="sm">
       <Typography variant="h3" component="h1" color="primary" align="center">Formulário de Cadastro</Typography>
-      <Formulario callBack={GetFormData} validateCPF={ValidaCPF} />
+      <FormValidatorContext.Provider value={
+        {
+          cpf: validateCPF,
+          password: validatePassword,
+          cep: validateCEP
+        }
+      }>
+        <Formulario />
+      </FormValidatorContext.Provider>
     </Container>
   );
-}
-function GetFormData(data) {
-  console.log(data);
-}
-function ValidaCPF(cpf) {
-  console.log("Validando CPF");
-  if (cpf.length !== 11) {
-
-    return { valido: false, msg: "O CPF deve possuir 11 dígitos." }
-  }
-  return { valido: true, msg: "CPF válido." }
 }
 export default App;
